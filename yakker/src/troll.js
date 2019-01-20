@@ -10,14 +10,20 @@ class TrollJohn extends React.Component {
     super(props);
     this.state = {
       typedInput: '',
-      words: `let's chat`,
+      words: [],
+      wordCount: 0,
     };
-
+    console.log(this.state.words)
     socket.on('incoming', payload => this.updateWords(payload));
   }
 
   updateWords = words => {
-    this.setState({ words });
+    this.setState({ words: [...this.state.words, words] });
+    this.state.wordCount++;
+    console.log(this.state.wordCount);
+    if (this.state.wordCount > 9) {
+        this.state.words.shift();
+    }
   };
 
   handleSubmit = event => {
@@ -32,7 +38,6 @@ class TrollJohn extends React.Component {
   render() {
     return (
       <>
-        <h2>{this.state.words}</h2>
         <form onSubmit={this.handleSubmit}>
           <input
             name="typedInput"
@@ -40,6 +45,16 @@ class TrollJohn extends React.Component {
             onChange={this.handleNewWords}
           />
         </form>
+        <h2>{this.state.words[9]}</h2>
+        <h2>{this.state.words[8]}</h2>
+        <h2>{this.state.words[7]}</h2>
+        <h2>{this.state.words[6]}</h2>
+        <h2>{this.state.words[5]}</h2>
+        <h2>{this.state.words[4]}</h2>
+        <h2>{this.state.words[3]}</h2>
+        <h2>{this.state.words[2]}</h2>
+        <h2>{this.state.words[1]}</h2>
+        <h2>{this.state.words[0]}</h2>
       </>
     );
   }
